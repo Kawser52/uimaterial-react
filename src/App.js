@@ -1,23 +1,24 @@
 import logo from './logo.svg';
 import './App.css';
+import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import News from './component/Card/News';
 
 function App() {
+  const [news,setNews]=useState([]);
+  useEffect(()=>{
+    fetch('https://newsapi.org/v2/everything?q=keyword&apiKey=1fa405b431094ad7943e8d423b35a103')
+    .then(res=>res.json())
+    .then(data=> setNews(data.articles))
+  },[])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     <Card sx={{ maxWidth: 345 }}>
+        {
+          news.map(nw=><News news={nw}></News>)
+        }
+    </Card>
+        
     </div>
   );
 }
